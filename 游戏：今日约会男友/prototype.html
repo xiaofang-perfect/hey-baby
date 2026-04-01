@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>原型验证 · 今日约会男友</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&family=Noto+Sans+SC:wght@300;400;700&family=Ma+Shan+Zheng&display=swap');
+:root{--pink:#f472b6;--pink-deep:#ec4899;--pink-soft:#fce7f3;--purple:#a855f7;--purple-soft:#e9d5ff;--purple-muted:#c084fc;--yellow:#fbbf24;--rose:#fb7185;--bg:#fffbfc;--card-bg:#fff;--text:#3b1f3d;--text-muted:#7a5080;--text-light:#a080a0;}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+body{background:var(--bg);color:var(--text);font-family:'Noto Sans SC',sans-serif;overflow:hidden;height:100dvh;position:relative;user-select:none;}
+.noise{position:fixed;inset:0;pointer-events:none;z-index:10000;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:256px;opacity:.018;mix-blend-mode:multiply;}
+.screen{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity .4s,transform .4s;padding:20px;}
+.screen.hidden{opacity:0;pointer-events:none;transform:scale(.98);}
+.screen.visible{opacity:1;pointer-events:auto;transform:scale(1);}
+#screen-title,#screen-narrative,#screen-result,#screen-unlock,#screen-ending{background:linear-gradient(180deg,#fffbfc,#fdf4f8,#faf5ff);}
+#screen-select,#screen-collection{background:linear-gradient(180deg,#fffbfc,#fdf4f8);}
+.title-logo{font-family:'Noto Serif SC',serif;font-size:clamp(2em,7vw,3.2em);font-weight:900;background:linear-gradient(135deg,var(--pink-deep),var(--purple),var(--yellow));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:.12em;text-align:center;line-height:1.4;}
+.title-sub{color:var(--pink-deep);font-size:clamp(.65em,2vw,.85em);letter-spacing:.25em;opacity:.4;margin-top:6px;}
+.title-desc{max-width:400px;margin-top:20px;font-size:clamp(.72em,2vw,.85em);line-height:1.8;color:var(--text-muted);text-align:center;font-family:'Noto Serif SC',serif;}
+.btn-main{margin-top:32px;padding:14px 48px;border-radius:30px;border:none;background:linear-gradient(135deg,var(--pink-deep),var(--purple));color:#fff;font-size:clamp(.85em,2.5vw,1em);letter-spacing:.15em;cursor:pointer;font-family:'Noto Sans SC',sans-serif;transition:all .3s;box-shadow:0 4px 20px rgba(236,72,153,.2);}
+.btn-main:hover{transform:translateY(-2px);box-shadow:0 6px 28px rgba(236,72,153,.3);}
+.btn-secondary{margin-top:14px;padding:10px 32px;border-radius:24px;border:1px solid rgba(236,72,153,.2);background:rgba(252,231,243,.3);color:var(--pink-deep);font-size:clamp(.72em,2vw,.82em);cursor:pointer;font-family:'Noto Sans SC',sans-serif;letter-spacing:.1em;transition:all .3s;}
+.btn-secondary:hover{background:rgba(252,231,243,.6);}
+.select-title{font-family:'Noto Serif SC',serif;font-size:clamp(.85em,2.5vw,1em);color:var(--text-muted);letter-spacing:.1em;margin-bottom:8px;text-align:center;line-height:1.8;}
+.select-title em{color:var(--pink-deep);font-style:normal;}
+.select-grid{display:flex;gap:clamp(10px,3vw,18px);justify-content:center;flex-wrap:wrap;margin-top:20px;max-width:600px;}
+.select-card{width:clamp(90px,20vw,110px);padding:14px 8px;border-radius:16px;background:var(--card-bg);border:2px solid transparent;cursor:pointer;transition:all .3s;display:flex;flex-direction:column;align-items:center;gap:8px;box-shadow:0 2px 12px rgba(168,85,247,.06);}
+.select-card:hover{transform:translateY(-4px);box-shadow:0 6px 20px rgba(168,85,247,.1);}
+.select-card.selected{border-color:var(--pink-deep);box-shadow:0 0 20px rgba(236,72,153,.15);}
+.select-avatar{width:clamp(48px,12vw,60px);height:clamp(48px,12vw,60px);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:clamp(1.4em,4vw,1.8em);position:relative;}
+.select-avatar::before{content:'';position:absolute;inset:-3px;border-radius:50%;background:linear-gradient(135deg,var(--pink),var(--purple),var(--yellow));-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;padding:2px;}
+.select-avatar-inner{width:100%;height:100%;border-radius:50%;display:flex;align-items:center;justify-content:center;background:#fef7ff;}
+.select-name{font-size:clamp(.6em,2vw,.75em);color:var(--text-muted);letter-spacing:.06em;}
+.select-stars{font-size:.6em;color:var(--yellow);letter-spacing:2px;}
+.select-card.unlocked .select-name{color:var(--pink-deep);font-weight:700;}
+.select-info{margin-top:20px;text-align:center;max-width:400px;}
+.char-desc{font-family:'Noto Serif SC',serif;font-size:clamp(.75em,2vw,.85em);color:var(--text-muted);line-height:1.8;margin-top:8px;}
+.btn-start-game{margin-top:24px;padding:12px 40px;border-radius:26px;border:none;background:linear-gradient(135deg,var(--pink-deep),var(--purple));color:#fff;font-size:clamp(.8em,2.5vw,.95em);letter-spacing:.12em;cursor:pointer;font-family:'Noto Sans SC',sans-serif;box-shadow:0 4px 16px rgba(236,72,153,.2);transition:all .3s;}
+.narrative-box{max-width:500px;width:100%;background:var(--card-bg);border-radius:20px;padding:clamp(20px,5vw,32px);border:1px solid var(--pink-soft);box-shadow:0 4px 24px rgba(236,72,153,.06);}
+.narrative-speaker{font-family:'Noto Serif SC',serif;font-size:clamp(.8em,2.5vw,.95em);color:var(--pink-deep);margin-bottom:12px;letter-spacing:.1em;}
+.narrative-text{font-size:clamp(.78em,2.2vw,.88em);line-height:2;color:var(--text-muted);font-family:'Noto Serif SC',serif;}
+.narrative-text em{color:var(--purple);font-style:normal;}
+.narrative-skip{margin-top:20px;padding:10px 32px;border-radius:22px;border:1px solid rgba(236,72,153,.2);background:rgba(252,231,243,.3);color:var(--pink-deep);font-size:clamp(.7em,2vw,.8em);cursor:pointer;font-family:'Noto Sans SC',sans-serif;letter-spacing:.1em;transition:all .3s;}
+#screen-game{padding:0;flex-direction:column;}
+.game-hud{position:absolute;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:flex-start;padding:clamp(8px,2vw,14px) clamp(12px,3vw,20px);background:linear-gradient(180deg,rgba(255,251,252,.95),rgba(255,251,252,.7),transparent);pointer-events:none;}
+.hud-left{display:flex;flex-direction:column;gap:4px;}
+.hud-lives{font-size:clamp(.9em,3vw,1.15em);letter-spacing:3px;filter:drop-shadow(0 0 4px rgba(251,191,36,.3));}
+.hud-lives .life{color:var(--yellow);transition:all .3s;}
+.hud-lives .life.lost{color:#e0d0d0;transform:scale(.7);opacity:.3;}
+.hud-char-name{font-size:clamp(.55em,1.8vw,.68em);color:var(--pink-deep);opacity:.5;letter-spacing:.12em;}
+.hud-center{display:flex;flex-direction:column;align-items:center;gap:2px;}
+.hud-timer{font-family:'Noto Serif SC',serif;font-size:clamp(1.2em,4vw,1.6em);font-weight:700;letter-spacing:.05em;}
+.hud-timer.warning{color:var(--rose);animation:timerPulse .5s infinite;}
+.hud-timer.normal{color:var(--purple);}
+@keyframes timerPulse{0%,100%{opacity:1}50%{opacity:.5}}
+.hud-timer-label{font-size:clamp(.5em,1.5vw,.6em);color:var(--text-light);letter-spacing:.1em;}
+.hud-right{text-align:right;}
+.hud-score{font-family:'Noto Serif SC',serif;font-size:clamp(1.1em,3.5vw,1.5em);font-weight:700;color:var(--purple);letter-spacing:.05em;}
+.hud-score-label{font-size:clamp(.5em,1.5vw,.6em);color:var(--text-light);letter-spacing:.1em;}
+.game-canvas-wrap{flex:1;width:100%;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;}
+#gameCanvas{display:block;max-width:100%;max-height:100%;touch-action:none;}
+.float-text{position:absolute;pointer-events:none;font-family:'Noto Serif SC',serif;font-size:clamp(.65em,2vw,.8em);white-space:nowrap;z-index:50;animation:floatUp 1.5s ease-out forwards;}
+.float-text.collect{color:var(--purple);}
+.float-text.obstacle{color:var(--rose);}
+@keyframes floatUp{0%{opacity:1;transform:translateY(0)}100%{opacity:0;transform:translateY(-60px)}}
+.hit-flash{position:absolute;inset:0;pointer-events:none;z-index:90;animation:hitFlash .3s ease-out forwards;}
+@keyframes hitFlash{0%{background:rgba(251,113,133,.15)}100%{background:transparent}}
+.collect-flash{position:absolute;inset:0;pointer-events:none;z-index:90;animation:collectFlash .3s ease-out forwards;}
+@keyframes collectFlash{0%{background:rgba(192,132,252,.08)}100%{background:transparent}}
+.result-box{text-align:center;max-width:400px;}
+.result-title{font-family:'Noto Serif SC',serif;font-size:clamp(1.2em,4vw,1.6em);color:var(--text);letter-spacing:.1em;margin-bottom:16px;}
+.result-score{font-family:'Noto Serif SC',serif;font-size:clamp(2em,8vw,3em);font-weight:900;background:linear-gradient(135deg,var(--pink-deep),var(--purple));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;}
+.result-stars{font-size:clamp(1.8em,6vw,2.4em);letter-spacing:8px;margin:20px 0;filter:drop-shadow(0 0 8px rgba(251,191,36,.3));}
+.result-stars .earned{color:var(--yellow);}
+.result-stars .empty{color:#e8ddd0;opacity:.4;}
+.result-msg{font-family:'Noto Serif SC',serif;font-size:clamp(.78em,2.2vw,.9em);color:var(--text-muted);line-height:1.8;margin-bottom:24px;}
+.result-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;}
+.btn-result{min-width:160px;padding:14px 24px !important;font-size:clamp(.82em,2.3vw,.95em) !important;}
+.ending-text{font-family:'Noto Serif SC',serif;font-size:clamp(.85em,2.5vw,1em);line-height:2.2;color:var(--text-muted);text-align:center;max-width:500px;}
+.ending-text .hl{color:var(--pink-deep);}
+.ending-final{margin-top:28px;font-family:'Noto Serif SC',serif;font-weight:900;font-size:clamp(1.4em,5vw,2em);background:linear-gradient(90deg,var(--pink-deep),var(--purple),var(--yellow));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:.1em;}
+.unlock-glow{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:clamp(200px,60vw,320px);height:clamp(200px,60vw,320px);border-radius:50%;background:radial-gradient(circle,rgba(252,231,243,.6),rgba(233,213,255,.3),transparent);animation:pulse 2.5s ease-in-out infinite;pointer-events:none;}
+@keyframes pulse{0%,100%{transform:translate(-50%,-50%) scale(1);opacity:.5}50%{transform:translate(-50%,-50%) scale(1.15);opacity:.9}}
+.unlock-card{width:clamp(180px,45vw,220px);height:clamp(260px,65vw,320px);border-radius:18px;background:var(--card-bg);position:relative;z-index:2;overflow:hidden;box-shadow:0 8px 40px rgba(236,72,153,.12);animation:cardAppear .8s ease-out;}
+@keyframes cardAppear{0%{opacity:0;transform:scale(.7) rotateY(20deg)}100%{opacity:1;transform:scale(1) rotateY(0)}}
+.uc-top{height:55%;display:flex;align-items:center;justify-content:center;}
+.uc-info{text-align:center;padding:12px 16px;}
+.uc-name{font-family:'Noto Serif SC',serif;font-size:clamp(1.1em,3.5vw,1.4em);letter-spacing:.15em;}
+.uc-stars{font-size:.9em;letter-spacing:3px;color:var(--yellow);margin-top:4px;filter:drop-shadow(0 0 4px rgba(251,191,36,.3));}
+.uc-quote{font-size:clamp(.62em,1.8vw,.72em);line-height:1.6;font-style:italic;margin-top:8px;color:var(--text-muted);font-family:'Noto Serif SC',serif;}
+.unlock-title{font-family:'Noto Serif SC',serif;font-size:clamp(1em,3vw,1.3em);background:linear-gradient(135deg,var(--pink-deep),var(--purple),var(--yellow));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:.1em;margin-top:24px;position:relative;z-index:2;}
+.unlock-dialogue{font-family:'Noto Serif SC',serif;font-size:clamp(.75em,2.2vw,.88em);color:var(--text-muted);line-height:1.9;margin-top:16px;text-align:center;max-width:400px;position:relative;z-index:2;}
+#screen-collection{overflow-y:auto;}
+.collection-title{font-family:'Noto Serif SC',serif;font-size:clamp(1.1em,3.5vw,1.5em);color:var(--purple);letter-spacing:.1em;margin-bottom:24px;}
+.collection-grid{display:flex;gap:clamp(12px,3vw,18px);justify-content:center;flex-wrap:wrap;max-width:700px;margin-bottom:30px;}
+.collection-card{width:clamp(120px,28vw,150px);height:clamp(180px,42vw,220px);border-radius:14px;background:var(--card-bg);border:1px solid var(--pink-soft);overflow:hidden;position:relative;box-shadow:0 2px 12px rgba(168,85,247,.05);transition:all .3s;}
+.collection-card:hover{transform:translateY(-3px);}
+.collection-card.locked{filter:grayscale(.6);opacity:.5;}
+.collection-card.locked::after{content:'🔒';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:1.6em;}
+.cc-top{height:55%;display:flex;align-items:center;justify-content:center;}
+.cc-info{text-align:center;padding:8px 10px;}
+.cc-name{font-family:'Noto Serif SC',serif;font-size:clamp(.75em,2.2vw,.95em);letter-spacing:.1em;}
+.cc-stars{font-size:.65em;letter-spacing:2px;margin-top:2px;}
+@media(max-width:480px){.game-hud{padding:6px 10px;}}
+@media(min-width:769px){.game-canvas-wrap{max-width:480px;margin:0 auto;}}
+</style>
+</head>
+<body>
+<div class="noise"></div>
+<div id="screen-title" class="screen visible">
+  <div class="title-logo">今日约会男友</div>
+  <div class="title-sub">DATING BOYFRIEND TODAY</div>
+  <div class="title-desc">翻开恋爱手账，踏上一段甜蜜又心动的旅程。<br>收集爱意，躲避伤痛，赢得他的心。</div>
+  <button class="btn-main" onclick="showScreen('screen-select')">开始约会</button>
+  <button class="btn-secondary" onclick="showScreen('screen-collection')">我的卡牌</button>
+</div>
+<div id="screen-select" class="screen hidden">
+  <div class="select-title">翻开手账的下一页，空白的纸张微微泛紫。<br><em>"今天，要和谁约会？"</em></div>
+  <div class="select-grid" id="selectGrid"></div>
+  <div class="select-info" id="selectInfo"></div>
+  <button class="btn-start-game" onclick="startNarrative()">开始约会</button>
+  <button class="btn-secondary" style="margin-top:10px" onclick="showScreen('screen-title')">返回</button>
+</div>
+<div id="screen-narrative" class="screen hidden">
+  <div class="narrative-box"><div class="narrative-speaker" id="narSpeaker"></div><div class="narrative-text" id="narText"></div></div>
+  <button class="narrative-skip" onclick="startGame()">开始游戏 →</button>
+</div>
+<div id="screen-game" class="screen hidden">
+  <div class="game-hud">
+    <div class="hud-left"><div class="hud-lives" id="hudLives"></div><div class="hud-char-name" id="hudCharName"></div></div>
+    <div class="hud-center"><div class="hud-timer normal" id="hudTimer">70</div><div class="hud-timer-label">秒</div></div>
+    <div class="hud-right"><div class="hud-score" id="hudScore">0</div><div class="hud-score-label">分数</div></div>
+  </div>
+  <div class="game-canvas-wrap" id="canvasWrap"><canvas id="gameCanvas"></canvas></div>
+</div>
+<div id="screen-result" class="screen hidden">
+  <div class="result-box">
+    <div class="result-title">约会结束</div>
+    <div class="result-score" id="resultScore">0</div>
+    <div class="result-stars" id="resultStars"></div>
+    <div class="result-msg" id="resultMsg"></div>
+    <div class="result-btns">
+      <button class="btn-main btn-result" onclick="startNarrative()">再来一次</button>
+      <button class="btn-main btn-result" style="background:linear-gradient(135deg,var(--purple-muted),var(--purple))" onclick="showScreen('screen-select')">换个人约会</button>
+    </div>
+  </div>
+</div>
+<div id="screen-unlock" class="screen hidden">
+  <div class="unlock-glow"></div>
+  <div class="unlock-card" id="unlockCard"></div>
+  <div class="unlock-title" id="unlockTitle"></div>
+  <div class="unlock-dialogue" id="unlockDialogue"></div>
+  <button class="btn-main" style="margin-top:24px;position:relative;z-index:2" onclick="afterUnlock()">收下卡牌</button>
+</div>
+<div id="screen-collection" class="screen hidden">
+  <div class="collection-title">恋爱手账</div>
+  <div class="collection-grid" id="collectionGrid"></div>
+  <button class="btn-secondary" onclick="showScreen('screen-title')">返回</button>
+</div>
+<div id="screen-ending" class="screen hidden">
+  <div class="ending-text">手账的最后一页亮了起来。<br>五个名字在紫色光晕中浮现。<br><br><span class="hl">"你见过了那么多种心动。"</span><br>"有霸道的、闪耀的、温柔的、甜蜜的、勇敢的。"<br><span class="hl">"现在，你知道自己想要的是什么了吗？"</span><br><br>——翻到下一页，是空白的。</div>
+  <div class="ending-final">去写你自己的故事吧。</div>
+  <button class="btn-main" style="margin-top:30px" onclick="showScreen('screen-title')">回到首页</button>
+</div>
+<script src="prototype-logic.js"></script>
+</body>
+</html>

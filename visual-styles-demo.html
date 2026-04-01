@@ -1,0 +1,1441 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>《今日约会男友》视觉风格选择</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&family=Noto+Sans+SC:wght@300;400;700&family=ZCOOL+KuaiLe&family=Ma+Shan+Zheng&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #0a0a0f;
+    color: #fff;
+    font-family: 'Noto Sans SC', sans-serif;
+    overflow-x: hidden;
+  }
+
+  .header {
+    text-align: center;
+    padding: 60px 20px 40px;
+  }
+  .header h1 {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 2.4em;
+    letter-spacing: 0.1em;
+    background: linear-gradient(135deg, #c084fc, #f0abfc, #fda4af);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .header p {
+    margin-top: 12px;
+    color: #a0a0b0;
+    font-size: 1em;
+    letter-spacing: 0.05em;
+  }
+
+  .styles-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+
+  .style-section {
+    margin-bottom: 80px;
+    border-radius: 24px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .style-title-bar {
+    padding: 30px 40px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  .style-number {
+    font-size: 3em;
+    font-weight: 900;
+    opacity: 0.3;
+    font-family: 'Noto Serif SC', serif;
+  }
+  .style-info h2 {
+    font-size: 1.6em;
+    font-family: 'Noto Serif SC', serif;
+    letter-spacing: 0.05em;
+  }
+  .style-info p {
+    font-size: 0.9em;
+    opacity: 0.7;
+    margin-top: 4px;
+  }
+
+  .demo-area {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 0;
+    min-height: 500px;
+  }
+
+  .demo-panel {
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .demo-label {
+    position: absolute;
+    top: 16px;
+    left: 20px;
+    font-size: 0.7em;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    opacity: 0.5;
+  }
+
+  /* ==================== STYLE 1: 酸蚀版画 ==================== */
+  .style1 { background: #1a0f2e; }
+  .style1 .style-title-bar { background: linear-gradient(90deg, #2d1b4e, #1a0f2e); }
+  .style1 .style-number { color: #c084fc; }
+  .style1 .style-info h2 { color: #e0b0ff; }
+  .style1 .style-info p { color: #9b7ab8; }
+
+  .style1 .demo-area { background: #0f0820; }
+
+  /* 赛道面板 */
+  .s1-track {
+    background: #110a20;
+    position: relative;
+  }
+  .s1-track canvas { border-radius: 8px; }
+
+  /* 卡牌面板 */
+  .s1-card-panel { background: #13082a; }
+  .s1-card {
+    width: 220px;
+    height: 320px;
+    border-radius: 16px;
+    position: relative;
+    overflow: hidden;
+    background: #1a0a30;
+    border: 2px solid #6b21a8;
+    box-shadow: 0 0 40px rgba(147, 51, 234, 0.3), inset 0 0 60px rgba(88, 28, 135, 0.2);
+  }
+  .s1-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: 
+      repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(147,51,234,0.05) 2px, rgba(147,51,234,0.05) 4px),
+      repeating-linear-gradient(90deg, transparent, transparent 3px, rgba(192,132,252,0.03) 3px, rgba(192,132,252,0.03) 6px);
+  }
+  .s1-card-silhouette {
+    width: 100%;
+    height: 65%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+  .s1-card-silhouette svg { filter: drop-shadow(0 0 20px rgba(192,132,252,0.5)); }
+  .s1-card-name {
+    text-align: center;
+    padding: 16px;
+    font-family: 'Noto Serif SC', serif;
+    font-size: 1.4em;
+    color: #e0b0ff;
+    letter-spacing: 0.15em;
+    text-shadow: 0 0 20px rgba(192,132,252,0.6);
+  }
+  .s1-card-quote {
+    text-align: center;
+    padding: 0 20px;
+    font-size: 0.75em;
+    color: #8b5cf6;
+    font-style: italic;
+    line-height: 1.6;
+  }
+  .s1-card .glitch-line {
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    background: rgba(250,140,200,0.4);
+    animation: glitchMove 3s infinite;
+  }
+
+  /* 收集物面板 */
+  .s1-items-panel { background: #0e0725; }
+  .s1-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 12px 16px;
+    margin: 6px 0;
+    border-radius: 12px;
+    background: rgba(88, 28, 135, 0.15);
+    border: 1px solid rgba(147, 51, 234, 0.2);
+    width: 280px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s;
+  }
+  .s1-item:hover {
+    background: rgba(88, 28, 135, 0.3);
+    border-color: rgba(147, 51, 234, 0.5);
+    transform: translateX(4px);
+  }
+  .s1-item-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2em;
+    flex-shrink: 0;
+  }
+  .s1-item-icon.collect {
+    background: linear-gradient(135deg, #7c3aed, #c084fc);
+    box-shadow: 0 0 12px rgba(147, 51, 234, 0.5);
+  }
+  .s1-item-icon.obstacle {
+    background: linear-gradient(135deg, #991b1b, #dc2626);
+    box-shadow: 0 0 12px rgba(220, 38, 38, 0.4);
+  }
+  .s1-item-text {
+    font-size: 0.82em;
+    color: #c4b5fd;
+  }
+  .s1-item-text.obs { color: #fca5a5; }
+
+  @keyframes glitchMove {
+    0%, 100% { top: 30%; opacity: 0; }
+    10% { top: 30%; opacity: 1; }
+    11% { top: 70%; opacity: 1; }
+    12% { top: 70%; opacity: 0; }
+    50% { opacity: 0; }
+    60% { top: 50%; opacity: 0.6; }
+    61% { top: 20%; opacity: 0; }
+  }
+
+  /* ==================== STYLE 2: 霓虹赛博 ==================== */
+  .style2 { background: #0a0a14; }
+  .style2 .style-title-bar { background: linear-gradient(90deg, #0f0f1e, #0a0a14); }
+  .style2 .style-number { color: #06b6d4; }
+  .style2 .style-info h2 { color: #22d3ee; }
+  .style2 .style-info p { color: #0e7490; }
+
+  .style2 .demo-area { background: #06060e; }
+
+  .s2-track { background: #08080f; }
+  .s2-card-panel { background: #0a0a14; }
+  .s2-card {
+    width: 220px;
+    height: 320px;
+    border-radius: 4px;
+    position: relative;
+    overflow: hidden;
+    background: #0c0c18;
+    border: 1px solid #06b6d4;
+    box-shadow: 0 0 30px rgba(6, 182, 212, 0.2), 0 0 60px rgba(236, 72, 153, 0.1);
+  }
+  .s2-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 3px,
+      rgba(6, 182, 212, 0.03) 3px,
+      rgba(6, 182, 212, 0.03) 4px
+    );
+  }
+  .s2-card::after {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    background: linear-gradient(135deg, #06b6d4, #ec4899, #06b6d4);
+    z-index: -1;
+    filter: blur(8px);
+    opacity: 0.4;
+  }
+  .s2-card-silhouette {
+    width: 100%;
+    height: 60%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .s2-card-silhouette svg {
+    filter: drop-shadow(0 0 15px rgba(6, 182, 212, 0.8)) drop-shadow(0 0 30px rgba(236, 72, 153, 0.4));
+  }
+  .s2-card-name {
+    text-align: center;
+    padding: 12px;
+    font-family: 'Noto Sans SC', sans-serif;
+    font-weight: 700;
+    font-size: 1.3em;
+    color: #22d3ee;
+    letter-spacing: 0.3em;
+    text-shadow: 0 0 10px rgba(6, 182, 212, 0.8), 0 0 40px rgba(6, 182, 212, 0.3);
+  }
+  .s2-card-quote {
+    text-align: center;
+    padding: 0 16px;
+    font-size: 0.72em;
+    color: #ec4899;
+    line-height: 1.6;
+    letter-spacing: 0.05em;
+  }
+
+  .s2-items-panel { background: #09091a; }
+  .s2-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 14px;
+    margin: 5px 0;
+    width: 270px;
+    border-left: 2px solid;
+    background: rgba(6, 182, 212, 0.05);
+  }
+  .s2-item.collect { border-color: #06b6d4; }
+  .s2-item.obstacle { border-color: #ec4899; }
+  .s2-item-icon {
+    font-size: 1.1em;
+  }
+  .s2-item-text {
+    font-size: 0.8em;
+    font-family: 'Noto Sans SC', sans-serif;
+  }
+  .s2-item.collect .s2-item-text { color: #67e8f9; }
+  .s2-item.obstacle .s2-item-text { color: #f9a8d4; }
+
+  /* ==================== STYLE 3: 水墨绮梦 ==================== */
+  .style3 { background: #faf5f0; }
+  .style3 .style-title-bar { background: linear-gradient(90deg, #f5ebe0, #faf5f0); }
+  .style3 .style-number { color: #c2a0d0; }
+  .style3 .style-info h2 { color: #6b4c7a; }
+  .style3 .style-info p { color: #9b8aa5; }
+
+  .style3 .demo-area { background: #f7f0e8; }
+
+  .s3-track { background: #f5eee5; }
+  .s3-card-panel { background: #faf3eb; }
+  .s3-card {
+    width: 220px;
+    height: 320px;
+    border-radius: 20px;
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(160deg, #fff5f5, #f3e8ff, #ede9fe, #fce7f3);
+    border: none;
+    box-shadow: 0 8px 40px rgba(139, 92, 246, 0.12), 0 2px 10px rgba(219,39,119,0.06);
+  }
+  .s3-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 30% 20%, rgba(251,146,60,0.08), transparent 50%),
+                radial-gradient(ellipse at 70% 80%, rgba(139,92,246,0.1), transparent 50%);
+  }
+  .s3-card-silhouette {
+    width: 100%;
+    height: 60%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .s3-card-silhouette svg { 
+    filter: drop-shadow(0 4px 12px rgba(139, 92, 246, 0.2)); 
+    opacity: 0.7;
+  }
+  .s3-card-name {
+    text-align: center;
+    padding: 14px;
+    font-family: 'Ma Shan Zheng', cursive;
+    font-size: 1.6em;
+    color: #6b4c7a;
+    letter-spacing: 0.1em;
+  }
+  .s3-card-quote {
+    text-align: center;
+    padding: 0 20px;
+    font-size: 0.78em;
+    color: #a78baf;
+    font-style: italic;
+    line-height: 1.7;
+    font-family: 'Noto Serif SC', serif;
+  }
+
+  .s3-items-panel { background: #f8f1e8; }
+  .s3-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 16px;
+    margin: 5px 0;
+    border-radius: 20px;
+    width: 260px;
+  }
+  .s3-item.collect { background: rgba(139, 92, 246, 0.08); }
+  .s3-item.obstacle { background: rgba(219, 39, 119, 0.06); }
+  .s3-item-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1em;
+  }
+  .s3-item.collect .s3-item-icon { background: rgba(139, 92, 246, 0.15); }
+  .s3-item.obstacle .s3-item-icon { background: rgba(219, 39, 119, 0.1); }
+  .s3-item.collect .s3-item-text { color: #6b4c7a; font-size: 0.82em; }
+  .s3-item.obstacle .s3-item-text { color: #9f5070; font-size: 0.82em; }
+
+  /* ==================== STYLE 4: 暗黑哥特 ==================== */
+  .style4 { background: #0c0808; }
+  .style4 .style-title-bar { background: linear-gradient(90deg, #1a0f0f, #0c0808); }
+  .style4 .style-number { color: #b91c1c; }
+  .style4 .style-info h2 { color: #dc9a9a; }
+  .style4 .style-info p { color: #7a5050; }
+
+  .style4 .demo-area { background: #0a0606; }
+
+  .s4-track { background: #0c0808; }
+  .s4-card-panel { background: #100a0a; }
+  .s4-card {
+    width: 220px;
+    height: 320px;
+    border-radius: 2px;
+    position: relative;
+    overflow: hidden;
+    background: #110808;
+    border: 1px solid #4a1a1a;
+    box-shadow: 0 0 50px rgba(153, 27, 27, 0.15);
+  }
+  .s4-card::before {
+    content: '';
+    position: absolute;
+    inset: 8px;
+    border: 1px solid rgba(153, 27, 27, 0.2);
+    pointer-events: none;
+  }
+  .s4-card::after {
+    content: '♰';
+    position: absolute;
+    top: 12px;
+    right: 16px;
+    font-size: 1.2em;
+    color: rgba(153, 27, 27, 0.3);
+  }
+  .s4-card-silhouette {
+    width: 100%;
+    height: 60%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .s4-card-silhouette svg {
+    filter: drop-shadow(0 0 20px rgba(153, 27, 27, 0.4));
+  }
+  .s4-card-name {
+    text-align: center;
+    padding: 14px;
+    font-family: 'Noto Serif SC', serif;
+    font-size: 1.3em;
+    color: #dc9a9a;
+    letter-spacing: 0.2em;
+  }
+  .s4-card-quote {
+    text-align: center;
+    padding: 0 18px;
+    font-size: 0.72em;
+    color: #7a4040;
+    font-style: italic;
+    line-height: 1.7;
+  }
+
+  .s4-items-panel { background: #0d0808; }
+  .s4-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 14px;
+    margin: 5px 0;
+    width: 270px;
+    position: relative;
+  }
+  .s4-item::before {
+    content: '—';
+    color: rgba(153, 27, 27, 0.3);
+    font-size: 0.8em;
+  }
+  .s4-item.collect .s4-item-text { color: #dc9a9a; font-size: 0.8em; }
+  .s4-item.obstacle .s4-item-text { color: #ef4444; font-size: 0.8em; opacity: 0.7; }
+  .s4-item-icon { font-size: 1em; }
+
+  /* ==================== STYLE 5: 复古胶片 ==================== */
+  .style5 { background: #1a1814; }
+  .style5 .style-title-bar { background: linear-gradient(90deg, #252018, #1a1814); }
+  .style5 .style-number { color: #d97706; }
+  .style5 .style-info h2 { color: #fbbf24; }
+  .style5 .style-info p { color: #92702a; }
+
+  .style5 .demo-area { background: #16140f; }
+
+  .s5-track { background: #18150f; }
+  .s5-card-panel { background: #1c1912; }
+  .s5-card {
+    width: 220px;
+    height: 320px;
+    border-radius: 3px;
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(170deg, #2a2418, #1e1a12, #2a2418);
+    border: 1px solid #4a3f2a;
+    box-shadow: 0 4px 30px rgba(0,0,0,0.5);
+  }
+  .s5-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 1px,
+      rgba(251, 191, 36, 0.02) 1px,
+      rgba(251, 191, 36, 0.02) 2px
+    );
+  }
+  .s5-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.4));
+  }
+  .s5-card-silhouette {
+    width: 100%;
+    height: 60%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 1;
+  }
+  .s5-card-silhouette svg {
+    filter: sepia(0.6) drop-shadow(0 0 15px rgba(251, 191, 36, 0.3));
+  }
+  .s5-card-name {
+    text-align: center;
+    padding: 14px;
+    font-family: 'Noto Serif SC', serif;
+    font-size: 1.3em;
+    color: #fbbf24;
+    letter-spacing: 0.15em;
+    position: relative;
+    z-index: 1;
+  }
+  .s5-card-quote {
+    text-align: center;
+    padding: 0 18px;
+    font-size: 0.72em;
+    color: #a08840;
+    font-style: italic;
+    line-height: 1.7;
+    position: relative;
+    z-index: 1;
+  }
+
+  .s5-items-panel { background: #19160f; }
+  .s5-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 14px;
+    margin: 5px 0;
+    width: 270px;
+    border-bottom: 1px solid rgba(251, 191, 36, 0.08);
+  }
+  .s5-item-icon { font-size: 1em; }
+  .s5-item.collect .s5-item-text { color: #fcd34d; font-size: 0.8em; }
+  .s5-item.obstacle .s5-item-text { color: #a08840; font-size: 0.8em; opacity: 0.6; }
+
+  /* ==================== CANVAS / TRACK STYLES ==================== */
+  canvas.track-canvas {
+    border-radius: 8px;
+    image-rendering: pixelated;
+  }
+
+  /* ==================== RESPONSIVE ==================== */
+  @media (max-width: 900px) {
+    .demo-area {
+      grid-template-columns: 1fr;
+    }
+    .demo-panel {
+      min-height: 400px;
+    }
+  }
+
+  /* ==================== NOISE OVERLAY ==================== */
+  .noise-overlay {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.04;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 256px 256px;
+  }
+
+  /* ==================== SECTION DIVIDER ==================== */
+  .divider {
+    text-align: center;
+    padding: 20px;
+    color: #333;
+    font-size: 0.7em;
+    letter-spacing: 0.3em;
+  }
+</style>
+</head>
+<body>
+
+<div class="noise-overlay"></div>
+
+<div class="header">
+  <h1>《今日约会男友》</h1>
+  <p>五种视觉风格提案 · 请选择你最喜欢的方向</p>
+</div>
+
+<div class="styles-container">
+
+  <!-- ============ STYLE 1: 酸蚀版画 ============ -->
+  <div class="style-section style1">
+    <div class="style-title-bar">
+      <div class="style-number">01</div>
+      <div class="style-info">
+        <h2>酸蚀版画 · Acid Etching</h2>
+        <p>柔紫噪点 × 矢量撕裂 × 故障渲染 — 你原始描述的视觉方向</p>
+      </div>
+    </div>
+    <div class="demo-area">
+      <div class="demo-panel s1-track">
+        <div class="demo-label">赛道预览</div>
+        <canvas id="track1" class="track-canvas" width="300" height="440"></canvas>
+      </div>
+      <div class="demo-panel s1-card-panel">
+        <div class="demo-label">角色卡牌</div>
+        <div class="s1-card">
+          <div class="glitch-line"></div>
+          <div class="s1-card-silhouette">
+            <svg width="100" height="140" viewBox="0 0 100 140">
+              <defs>
+                <linearGradient id="s1g" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#c084fc"/>
+                  <stop offset="100%" stop-color="#7c3aed"/>
+                </linearGradient>
+              </defs>
+              <circle cx="50" cy="30" r="20" fill="url(#s1g)" opacity="0.8"/>
+              <path d="M25 65 Q30 50 50 48 Q70 50 75 65 L80 130 Q50 140 20 130 Z" fill="url(#s1g)" opacity="0.6"/>
+              <line x1="10" y1="70" x2="90" y2="72" stroke="#f0abfc" stroke-width="1" opacity="0.4"/>
+              <line x1="15" y1="100" x2="85" y2="98" stroke="#f0abfc" stroke-width="1" opacity="0.3"/>
+            </svg>
+          </div>
+          <div class="s1-card-name">霸 总</div>
+          <div class="s1-card-quote">"上车。我只说一次。"</div>
+        </div>
+      </div>
+      <div class="demo-panel s1-items-panel">
+        <div class="demo-label">收集物 & 障碍物</div>
+        <div class="s1-item">
+          <div class="s1-item-icon collect">💜</div>
+          <div class="s1-item-text">替你挡酒</div>
+        </div>
+        <div class="s1-item">
+          <div class="s1-item-icon collect">💜</div>
+          <div class="s1-item-text">专属接送</div>
+        </div>
+        <div class="s1-item">
+          <div class="s1-item-icon collect">💜</div>
+          <div class="s1-item-text">定制礼物</div>
+        </div>
+        <div style="height: 10px;"></div>
+        <div class="s1-item">
+          <div class="s1-item-icon obstacle">🖤</div>
+          <div class="s1-item-text obs">冷言拒绝</div>
+        </div>
+        <div class="s1-item">
+          <div class="s1-item-icon obstacle">🖤</div>
+          <div class="s1-item-text obs">故意疏远</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider">· · ·</div>
+
+  <!-- ============ STYLE 2: 霓虹赛博 ============ -->
+  <div class="style-section style2">
+    <div class="style-title-bar">
+      <div class="style-number">02</div>
+      <div class="style-info">
+        <h2>霓虹赛博 · Neon Cyber</h2>
+        <p>青粉霓虹 × 扫描线 × 数据流 — 冷酷浪漫的赛博朋克调性</p>
+      </div>
+    </div>
+    <div class="demo-area">
+      <div class="demo-panel s2-track">
+        <div class="demo-label" style="color:#0e7490;">赛道预览</div>
+        <canvas id="track2" class="track-canvas" width="300" height="440"></canvas>
+      </div>
+      <div class="demo-panel s2-card-panel">
+        <div class="demo-label" style="color:#0e7490;">角色卡牌</div>
+        <div class="s2-card">
+          <div class="s2-card-silhouette">
+            <svg width="100" height="140" viewBox="0 0 100 140">
+              <defs>
+                <linearGradient id="s2g" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#06b6d4"/>
+                  <stop offset="100%" stop-color="#ec4899"/>
+                </linearGradient>
+              </defs>
+              <circle cx="50" cy="30" r="20" fill="none" stroke="url(#s2g)" stroke-width="2"/>
+              <circle cx="50" cy="30" r="18" fill="url(#s2g)" opacity="0.15"/>
+              <path d="M25 65 Q30 50 50 48 Q70 50 75 65 L80 130 Q50 140 20 130 Z" fill="none" stroke="url(#s2g)" stroke-width="1.5"/>
+              <path d="M30 68 Q40 54 50 52 Q60 54 70 68 L74 125 Q50 133 26 125 Z" fill="url(#s2g)" opacity="0.1"/>
+            </svg>
+          </div>
+          <div class="s2-card-name">I D O L</div>
+          <div class="s2-card-quote">"灯光太亮，看不见任何人的脸。<br>但我总是知道你在哪里。"</div>
+        </div>
+      </div>
+      <div class="demo-panel s2-items-panel">
+        <div class="demo-label" style="color:#0e7490;">收集物 & 障碍物</div>
+        <div class="s2-item collect">
+          <div class="s2-item-icon">◆</div>
+          <div class="s2-item-text">专属唱给你</div>
+        </div>
+        <div class="s2-item collect">
+          <div class="s2-item-icon">◆</div>
+          <div class="s2-item-text">偷偷见你</div>
+        </div>
+        <div class="s2-item collect">
+          <div class="s2-item-icon">◆</div>
+          <div class="s2-item-text">公开护你</div>
+        </div>
+        <div style="height: 8px;"></div>
+        <div class="s2-item obstacle">
+          <div class="s2-item-icon">✕</div>
+          <div class="s2-item-text">隐瞒关系</div>
+        </div>
+        <div class="s2-item obstacle">
+          <div class="s2-item-icon">✕</div>
+          <div class="s2-item-text">深夜失联</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider">· · ·</div>
+
+  <!-- ============ STYLE 3: 水墨绮梦 ============ -->
+  <div class="style-section style3">
+    <div class="style-title-bar">
+      <div class="style-number">03</div>
+      <div class="style-info">
+        <h2>水墨绮梦 · Ink Dreamscape</h2>
+        <p>水彩晕染 × 柔光粉紫 × 手写字体 — 温柔如纸上的呼吸</p>
+      </div>
+    </div>
+    <div class="demo-area">
+      <div class="demo-panel s3-track">
+        <div class="demo-label" style="color:#9b8aa5;">赛道预览</div>
+        <canvas id="track3" class="track-canvas" width="300" height="440"></canvas>
+      </div>
+      <div class="demo-panel s3-card-panel">
+        <div class="demo-label" style="color:#9b8aa5;">角色卡牌</div>
+        <div class="s3-card">
+          <div class="s3-card-silhouette">
+            <svg width="100" height="140" viewBox="0 0 100 140">
+              <defs>
+                <radialGradient id="s3g" cx="50%" cy="40%" r="50%">
+                  <stop offset="0%" stop-color="#c084fc" stop-opacity="0.5"/>
+                  <stop offset="100%" stop-color="#f9a8d4" stop-opacity="0.2"/>
+                </radialGradient>
+              </defs>
+              <circle cx="50" cy="30" r="20" fill="url(#s3g)"/>
+              <path d="M28 60 Q35 48 50 45 Q65 48 72 60 L76 132 Q50 140 24 132 Z" fill="url(#s3g)"/>
+              <circle cx="35" cy="25" r="3" fill="#f9a8d4" opacity="0.4"/>
+              <circle cx="60" cy="55" r="5" fill="#c084fc" opacity="0.2"/>
+              <circle cx="45" cy="100" r="4" fill="#fda4af" opacity="0.3"/>
+            </svg>
+          </div>
+          <div class="s3-card-name">医生</div>
+          <div class="s3-card-quote">"有一种心跳加速，<br>不需要治。"</div>
+        </div>
+      </div>
+      <div class="demo-panel s3-items-panel">
+        <div class="demo-label" style="color:#9b8aa5;">收集物 & 障碍物</div>
+        <div class="s3-item collect">
+          <div class="s3-item-icon">🤍</div>
+          <div class="s3-item-text">熬养胃汤</div>
+        </div>
+        <div class="s3-item collect">
+          <div class="s3-item-icon">🤍</div>
+          <div class="s3-item-text">记得你忌口</div>
+        </div>
+        <div class="s3-item collect">
+          <div class="s3-item-icon">🤍</div>
+          <div class="s3-item-text">递暖手宝</div>
+        </div>
+        <div style="height: 6px;"></div>
+        <div class="s3-item obstacle">
+          <div class="s3-item-icon">💧</div>
+          <div class="s3-item-text">深夜加班</div>
+        </div>
+        <div class="s3-item obstacle">
+          <div class="s3-item-icon">💧</div>
+          <div class="s3-item-text">爽约急诊</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider" style="color:#999;">· · ·</div>
+
+  <!-- ============ STYLE 4: 暗黑哥特 ============ -->
+  <div class="style-section style4">
+    <div class="style-title-bar">
+      <div class="style-number">04</div>
+      <div class="style-info">
+        <h2>暗黑哥特 · Dark Gothic</h2>
+        <p>深红暗纹 × 十字纹章 × 铜版蚀刻 — 危险而致命的浪漫</p>
+      </div>
+    </div>
+    <div class="demo-area">
+      <div class="demo-panel s4-track">
+        <div class="demo-label" style="color:#7a5050;">赛道预览</div>
+        <canvas id="track4" class="track-canvas" width="300" height="440"></canvas>
+      </div>
+      <div class="demo-panel s4-card-panel">
+        <div class="demo-label" style="color:#7a5050;">角色卡牌</div>
+        <div class="s4-card">
+          <div class="s4-card-silhouette">
+            <svg width="100" height="140" viewBox="0 0 100 140">
+              <defs>
+                <linearGradient id="s4g" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#991b1b"/>
+                  <stop offset="100%" stop-color="#450a0a"/>
+                </linearGradient>
+              </defs>
+              <circle cx="50" cy="30" r="20" fill="url(#s4g)" opacity="0.7"/>
+              <path d="M25 65 Q30 50 50 48 Q70 50 75 65 L80 130 Q50 140 20 130 Z" fill="url(#s4g)" opacity="0.5"/>
+              <line x1="50" y1="0" x2="50" y2="140" stroke="#991b1b" stroke-width="0.5" opacity="0.2"/>
+              <line x1="0" y1="70" x2="100" y2="70" stroke="#991b1b" stroke-width="0.5" opacity="0.2"/>
+            </svg>
+          </div>
+          <div class="s4-card-name">特 警</div>
+          <div class="s4-card-quote">"那个方向变得很具体。<br>因为有你在。"</div>
+        </div>
+      </div>
+      <div class="demo-panel s4-items-panel">
+        <div class="demo-label" style="color:#7a5050;">收集物 & 障碍物</div>
+        <div class="s4-item collect">
+          <div class="s4-item-icon">♥</div>
+          <div class="s4-item-text">护你周全</div>
+        </div>
+        <div class="s4-item collect">
+          <div class="s4-item-icon">♥</div>
+          <div class="s4-item-text">挡掉危险</div>
+        </div>
+        <div class="s4-item collect">
+          <div class="s4-item-icon">♥</div>
+          <div class="s4-item-text">粗中有细</div>
+        </div>
+        <div style="height: 8px;"></div>
+        <div class="s4-item obstacle">
+          <div class="s4-item-icon">✟</div>
+          <div class="s4-item-text">临时出警</div>
+        </div>
+        <div class="s4-item obstacle">
+          <div class="s4-item-icon">✟</div>
+          <div class="s4-item-text">失踪失联</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider">· · ·</div>
+
+  <!-- ============ STYLE 5: 复古胶片 ============ -->
+  <div class="style-section style5">
+    <div class="style-title-bar">
+      <div class="style-number">05</div>
+      <div class="style-info">
+        <h2>复古胶片 · Retro Film</h2>
+        <p>暖黄色调 × 胶片颗粒 × 褪色质感 — 像旧照片里的秘密恋情</p>
+      </div>
+    </div>
+    <div class="demo-area">
+      <div class="demo-panel s5-track">
+        <div class="demo-label" style="color:#92702a;">赛道预览</div>
+        <canvas id="track5" class="track-canvas" width="300" height="440"></canvas>
+      </div>
+      <div class="demo-panel s5-card-panel">
+        <div class="demo-label" style="color:#92702a;">角色卡牌</div>
+        <div class="s5-card">
+          <div class="s5-card-silhouette">
+            <svg width="100" height="140" viewBox="0 0 100 140">
+              <defs>
+                <linearGradient id="s5g" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#fbbf24"/>
+                  <stop offset="100%" stop-color="#92400e"/>
+                </linearGradient>
+              </defs>
+              <circle cx="50" cy="30" r="20" fill="url(#s5g)" opacity="0.5"/>
+              <path d="M25 65 Q30 50 50 48 Q70 50 75 65 L80 130 Q50 140 20 130 Z" fill="url(#s5g)" opacity="0.35"/>
+            </svg>
+          </div>
+          <div class="s5-card-name">甜品师</div>
+          <div class="s5-card-quote">"你的表情我全记得。"</div>
+        </div>
+      </div>
+      <div class="demo-panel s5-items-panel">
+        <div class="demo-label" style="color:#92702a;">收集物 & 障碍物</div>
+        <div class="s5-item collect">
+          <div class="s5-item-icon">✦</div>
+          <div class="s5-item-text">定制甜品</div>
+        </div>
+        <div class="s5-item collect">
+          <div class="s5-item-icon">✦</div>
+          <div class="s5-item-text">教你烘焙</div>
+        </div>
+        <div class="s5-item collect">
+          <div class="s5-item-icon">✦</div>
+          <div class="s5-item-text">甜品告白</div>
+        </div>
+        <div style="height: 8px;"></div>
+        <div class="s5-item obstacle">
+          <div class="s5-item-icon">◌</div>
+          <div class="s5-item-text">沉默不语</div>
+        </div>
+        <div class="s5-item obstacle">
+          <div class="s5-item-icon">◌</div>
+          <div class="s5-item-text">忘记喜好</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ==================== TRACK RENDERING ====================
+
+function drawTrack1(canvas) {
+  const ctx = canvas.getContext('2d');
+  const w = canvas.width, h = canvas.height;
+  
+  // Background with noise
+  ctx.fillStyle = '#0f0820';
+  ctx.fillRect(0, 0, w, h);
+  
+  // Add noise grain
+  const imageData = ctx.getImageData(0, 0, w, h);
+  for (let i = 0; i < imageData.data.length; i += 4) {
+    const noise = (Math.random() - 0.5) * 30;
+    imageData.data[i] += noise;
+    imageData.data[i+1] += noise * 0.5;
+    imageData.data[i+2] += noise * 1.5;
+  }
+  ctx.putImageData(imageData, 0, 0);
+  
+  // Lane lines
+  const laneWidth = w / 5;
+  for (let i = 0; i <= 5; i++) {
+    ctx.beginPath();
+    ctx.strokeStyle = i === 0 || i === 5 ? 'rgba(147,51,234,0.6)' : 'rgba(147,51,234,0.15)';
+    ctx.lineWidth = i === 0 || i === 5 ? 2 : 1;
+    // Jagged/hand-drawn effect
+    for (let y = 0; y < h; y += 3) {
+      const x = i * laneWidth + (Math.random() - 0.5) * 2;
+      if (y === 0) ctx.moveTo(x, y);
+      else ctx.lineTo(x, y);
+    }
+    ctx.stroke();
+  }
+  
+  // Player triangle
+  const playerLane = 2;
+  const playerX = playerLane * laneWidth + laneWidth / 2;
+  const playerY = h - 80;
+  ctx.beginPath();
+  ctx.moveTo(playerX, playerY - 20);
+  ctx.lineTo(playerX - 15, playerY + 15);
+  ctx.lineTo(playerX + 15, playerY + 15);
+  ctx.closePath();
+  ctx.fillStyle = '#c084fc';
+  ctx.shadowColor = '#c084fc';
+  ctx.shadowBlur = 20;
+  ctx.fill();
+  ctx.shadowBlur = 0;
+  
+  // Collectible (heart shape - simplified)
+  const col1X = 1 * laneWidth + laneWidth / 2;
+  ctx.beginPath();
+  ctx.arc(col1X, 120, 12, 0, Math.PI * 2);
+  ctx.fillStyle = 'rgba(192,132,252,0.6)';
+  ctx.shadowColor = '#c084fc';
+  ctx.shadowBlur = 15;
+  ctx.fill();
+  ctx.shadowBlur = 0;
+  ctx.fillStyle = '#fff';
+  ctx.font = '14px sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('♡', col1X, 125);
+  
+  // Obstacle (X shape)
+  const obs1X = 3 * laneWidth + laneWidth / 2;
+  ctx.beginPath();
+  ctx.arc(obs1X, 200, 12, 0, Math.PI * 2);
+  ctx.fillStyle = 'rgba(220,38,38,0.4)';
+  ctx.shadowColor = '#dc2626';
+  ctx.shadowBlur = 12;
+  ctx.fill();
+  ctx.shadowBlur = 0;
+  ctx.fillStyle = '#fca5a5';
+  ctx.font = '14px sans-serif';
+  ctx.fillText('✕', obs1X, 205);
+  
+  // Collectible 2
+  const col2X = 4 * laneWidth + laneWidth / 2;
+  ctx.beginPath();
+  ctx.arc(col2X, 300, 12, 0, Math.PI * 2);
+  ctx.fillStyle = 'rgba(192,132,252,0.6)';
+  ctx.shadowColor = '#c084fc';
+  ctx.shadowBlur = 15;
+  ctx.fill();
+  ctx.shadowBlur = 0;
+  ctx.fillStyle = '#fff';
+  ctx.font = '14px sans-serif';
+  ctx.fillText('♡', col2X, 305);
+  
+  // Glitch lines
+  for (let i = 0; i < 3; i++) {
+    const y = Math.random() * h;
+    const glitchW = 30 + Math.random() * 80;
+    const glitchX = Math.random() * w;
+    ctx.fillStyle = `rgba(250,140,200,${0.1 + Math.random() * 0.15})`;
+    ctx.fillRect(glitchX, y, glitchW, 2);
+  }
+  
+  // Score area
+  ctx.fillStyle = 'rgba(192,132,252,0.8)';
+  ctx.font = 'bold 14px "Noto Sans SC", sans-serif';
+  ctx.textAlign = 'left';
+  ctx.fillText('★ ★ ☆', 15, 25);
+  ctx.fillStyle = 'rgba(192,132,252,0.5)';
+  ctx.font = '11px "Noto Sans SC", sans-serif';
+  ctx.fillText('霸总线', 15, 42);
+}
+
+function drawTrack2(canvas) {
+  const ctx = canvas.getContext('2d');
+  const w = canvas.width, h = canvas.height;
+  
+  ctx.fillStyle = '#06060e';
+  ctx.fillRect(0, 0, w, h);
+  
+  // Grid lines
+  for (let y = 0; y < h; y += 20) {
+    ctx.strokeStyle = `rgba(6,182,212,${0.03 + Math.sin(y * 0.05) * 0.02})`;
+    ctx.lineWidth = 0.5;
+    ctx.beginPath();
+    ctx.moveTo(0, y);
+    ctx.lineTo(w, y);
+    ctx.stroke();
+  }
+  
+  // Lane lines - neon
+  const laneWidth = w / 5;
+  for (let i = 0; i <= 5; i++) {
+    ctx.beginPath();
+    ctx.moveTo(i * laneWidth, 0);
+    ctx.lineTo(i * laneWidth, h);
+    if (i === 0 || i === 5) {
+      ctx.strokeStyle = '#06b6d4';
+      ctx.lineWidth = 2;
+      ctx.shadowColor = '#06b6d4';
+      ctx.shadowBlur = 10;
+    } else {
+      ctx.strokeStyle = 'rgba(6,182,212,0.15)';
+      ctx.lineWidth = 1;
+      ctx.shadowBlur = 0;
+    }
+    ctx.stroke();
+    ctx.shadowBlur = 0;
+  }
+  
+  // Dashed center guides
+  ctx.setLineDash([10, 15]);
+  for (let i = 1; i < 5; i++) {
+    ctx.beginPath();
+    ctx.moveTo(i * laneWidth, 0);
+    ctx.lineTo(i * laneWidth, h);
+    ctx.strokeStyle = 'rgba(6,182,212,0.08)';
+    ctx.lineWidth = 1;
+    ctx.stroke();
+  }
+  ctx.setLineDash([]);
+  
+  // Player - diamond shape
+  const px = 2 * laneWidth + laneWidth / 2;
+  const py = h - 80;
+  ctx.beginPath();
+  ctx.moveTo(px, py - 18);
+  ctx.lineTo(px + 14, py);
+  ctx.lineTo(px, py + 18);
+  ctx.lineTo(px - 14, py);
+  ctx.closePath();
+  ctx.strokeStyle = '#06b6d4';
+  ctx.lineWidth = 2;
+  ctx.shadowColor = '#06b6d4';
+  ctx.shadowBlur = 20;
+  ctx.stroke();
+  ctx.fillStyle = 'rgba(6,182,212,0.2)';
+  ctx.fill();
+  ctx.shadowBlur = 0;
+  
+  // Collectible - cyan diamond
+  const cx1 = 0 * laneWidth + laneWidth / 2;
+  ctx.beginPath();
+  ctx.moveTo(cx1, 140);
+  ctx.lineTo(cx1 + 10, 150);
+  ctx.lineTo(cx1, 160);
+  ctx.lineTo(cx1 - 10, 150);
+  ctx.closePath();
+  ctx.fillStyle = '#06b6d4';
+  ctx.shadowColor = '#06b6d4';
+  ctx.shadowBlur = 15;
+  ctx.fill();
+  ctx.shadowBlur = 0;
+  
+  // Obstacle - pink X
+  const ox1 = 4 * laneWidth + laneWidth / 2;
+  ctx.strokeStyle = '#ec4899';
+  ctx.lineWidth = 2;
+  ctx.shadowColor = '#ec4899';
+  ctx.shadowBlur = 12;
+  ctx.beginPath();
+  ctx.moveTo(ox1 - 8, 200 - 8);
+  ctx.lineTo(ox1 + 8, 200 + 8);
+  ctx.moveTo(ox1 + 8, 200 - 8);
+  ctx.lineTo(ox1 - 8, 200 + 8);
+  ctx.stroke();
+  ctx.shadowBlur = 0;
+  
+  // Collectible 2
+  const cx2 = 3 * laneWidth + laneWidth / 2;
+  ctx.beginPath();
+  ctx.moveTo(cx2, 310);
+  ctx.lineTo(cx2 + 10, 320);
+  ctx.lineTo(cx2, 330);
+  ctx.lineTo(cx2 - 10, 320);
+  ctx.closePath();
+  ctx.fillStyle = '#06b6d4';
+  ctx.shadowColor = '#06b6d4';
+  ctx.shadowBlur = 15;
+  ctx.fill();
+  ctx.shadowBlur = 0;
+  
+  // HUD
+  ctx.fillStyle = '#22d3ee';
+  ctx.font = 'bold 13px "Noto Sans SC", sans-serif';
+  ctx.textAlign = 'left';
+  ctx.fillText('◆ ◆ ◇', 15, 25);
+  ctx.fillStyle = '#0e7490';
+  ctx.font = '10px "Noto Sans SC", sans-serif';
+  ctx.fillText('IDOL_LINE', 15, 40);
+}
+
+function drawTrack3(canvas) {
+  const ctx = canvas.getContext('2d');
+  const w = canvas.width, h = canvas.height;
+  
+  // Warm cream bg
+  ctx.fillStyle = '#f5eee5';
+  ctx.fillRect(0, 0, w, h);
+  
+  // Watercolor blobs
+  const blobs = [
+    { x: 80, y: 100, r: 60, color: 'rgba(196,181,253,0.12)' },
+    { x: 220, y: 250, r: 80, color: 'rgba(249,168,212,0.08)' },
+    { x: 50, y: 350, r: 50, color: 'rgba(253,164,175,0.1)' },
+    { x: 250, y: 80, r: 40, color: 'rgba(192,132,252,0.1)' },
+  ];
+  blobs.forEach(b => {
+    const grad = ctx.createRadialGradient(b.x, b.y, 0, b.x, b.y, b.r);
+    grad.addColorStop(0, b.color);
+    grad.addColorStop(1, 'transparent');
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, w, h);
+  });
+  
+  // Soft lane lines
+  const laneWidth = w / 5;
+  for (let i = 0; i <= 5; i++) {
+    ctx.beginPath();
+    for (let y = 0; y < h; y += 4) {
+      const x = i * laneWidth + Math.sin(y * 0.02) * 2;
+      if (y === 0) ctx.moveTo(x, y);
+      else ctx.lineTo(x, y);
+    }
+    ctx.strokeStyle = i === 0 || i === 5 ? 'rgba(139,92,246,0.25)' : 'rgba(139,92,246,0.08)';
+    ctx.lineWidth = i === 0 || i === 5 ? 1.5 : 0.8;
+    ctx.stroke();
+  }
+  
+  // Player - soft circle
+  const px = 2 * laneWidth + laneWidth / 2;
+  const py = h - 80;
+  const pgrd = ctx.createRadialGradient(px, py, 0, px, py, 18);
+  pgrd.addColorStop(0, 'rgba(192,132,252,0.6)');
+  pgrd.addColorStop(1, 'rgba(192,132,252,0.1)');
+  ctx.beginPath();
+  ctx.arc(px, py, 18, 0, Math.PI * 2);
+  ctx.fillStyle = pgrd;
+  ctx.fill();
+  ctx.strokeStyle = 'rgba(139,92,246,0.3)';
+  ctx.lineWidth = 1;
+  ctx.stroke();
+  
+  // Collectible - soft petal
+  const cx1 = 1 * laneWidth + laneWidth / 2;
+  ctx.beginPath();
+  ctx.arc(cx1, 130, 10, 0, Math.PI * 2);
+  ctx.fillStyle = 'rgba(192,132,252,0.3)';
+  ctx.fill();
+  ctx.fillStyle = '#8b5cf6';
+  ctx.font = '12px sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('❀', cx1, 134);
+  
+  // Obstacle - teardrop
+  const ox1 = 3 * laneWidth + laneWidth / 2;
+  ctx.beginPath();
+  ctx.arc(ox1, 220, 10, 0, Math.PI * 2);
+  ctx.fillStyle = 'rgba(219,39,119,0.15)';
+  ctx.fill();
+  ctx.fillStyle = '#db2777';
+  ctx.font = '11px sans-serif';
+  ctx.fillText('·', ox1, 224);
+  
+  // Collectible 2
+  const cx2 = 4 * laneWidth + laneWidth / 2;
+  ctx.beginPath();
+  ctx.arc(cx2, 320, 10, 0, Math.PI * 2);
+  ctx.fillStyle = 'rgba(192,132,252,0.3)';
+  ctx.fill();
+  ctx.fillStyle = '#8b5cf6';
+  ctx.font = '12px sans-serif';
+  ctx.fillText('❀', cx2, 324);
+  
+  // HUD
+  ctx.fillStyle = '#8b5cf6';
+  ctx.font = '13px "Ma Shan Zheng", cursive, sans-serif';
+  ctx.textAlign = 'left';
+  ctx.fillText('✿ ✿ ✧', 15, 26);
+  ctx.fillStyle = '#a78baf';
+  ctx.font = '11px "Ma Shan Zheng", cursive, sans-serif';
+  ctx.fillText('医生篇', 15, 43);
+}
+
+function drawTrack4(canvas) {
+  const ctx = canvas.getContext('2d');
+  const w = canvas.width, h = canvas.height;
+  
+  ctx.fillStyle = '#0a0606';
+  ctx.fillRect(0, 0, w, h);
+  
+  // Dark noise
+  const imageData = ctx.getImageData(0, 0, w, h);
+  for (let i = 0; i < imageData.data.length; i += 4) {
+    const n = (Math.random() - 0.5) * 15;
+    imageData.data[i] += n * 1.5;
+    imageData.data[i+1] += n * 0.3;
+    imageData.data[i+2] += n * 0.3;
+  }
+  ctx.putImageData(imageData, 0, 0);
+  
+  // Ornate border lines
+  const laneWidth = w / 5;
+  for (let i = 0; i <= 5; i++) {
+    ctx.beginPath();
+    ctx.moveTo(i * laneWidth, 0);
+    ctx.lineTo(i * laneWidth, h);
+    ctx.strokeStyle = i === 0 || i === 5 ? 'rgba(153,27,27,0.5)' : 'rgba(153,27,27,0.12)';
+    ctx.lineWidth = i === 0 || i === 5 ? 1.5 : 0.5;
+    ctx.stroke();
+  }
+  
+  // Cross decorations at intervals
+  for (let i = 1; i < 5; i++) {
+    for (let y = 40; y < h; y += 80) {
+      const x = i * laneWidth;
+      ctx.strokeStyle = 'rgba(153,27,27,0.15)';
+      ctx.lineWidth = 0.5;
+      ctx.beginPath();
+      ctx.moveTo(x - 4, y);
+      ctx.lineTo(x + 4, y);
+      ctx.moveTo(x, y - 4);
+      ctx.lineTo(x, y + 4);
+      ctx.stroke();
+    }
+  }
+  
+  // Player - angular
+  const px = 2 * laneWidth + laneWidth / 2;
+  const py = h - 80;
+  ctx.beginPath();
+  ctx.moveTo(px, py - 18);
+  ctx.lineTo(px - 12, py + 14);
+  ctx.lineTo(px + 12, py + 14);
+  ctx.closePath();
+  ctx.fillStyle = 'rgba(153,27,27,0.7)';
+  ctx.fill();
+  ctx.strokeStyle = '#991b1b';
+  ctx.lineWidth = 1;
+  ctx.shadowColor = '#991b1b';
+  ctx.shadowBlur = 15;
+  ctx.stroke();
+  ctx.shadowBlur = 0;
+  
+  // Collectible
+  const cx1 = 0 * laneWidth + laneWidth / 2;
+  ctx.fillStyle = '#dc9a9a';
+  ctx.font = '16px serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('♥', cx1, 150);
+  
+  // Obstacle
+  const ox1 = 4 * laneWidth + laneWidth / 2;
+  ctx.fillStyle = 'rgba(239,68,68,0.5)';
+  ctx.font = '14px serif';
+  ctx.fillText('✟', ox1, 250);
+  
+  // Collectible 2
+  const cx2 = 3 * laneWidth + laneWidth / 2;
+  ctx.fillStyle = '#dc9a9a';
+  ctx.font = '16px serif';
+  ctx.fillText('♥', cx2, 330);
+  
+  // HUD
+  ctx.fillStyle = '#dc9a9a';
+  ctx.font = '13px "Noto Serif SC", serif';
+  ctx.textAlign = 'left';
+  ctx.fillText('♰ ♰ ♢', 15, 25);
+  ctx.fillStyle = '#7a4040';
+  ctx.font = '10px "Noto Serif SC", serif';
+  ctx.fillText('特警篇', 15, 42);
+}
+
+function drawTrack5(canvas) {
+  const ctx = canvas.getContext('2d');
+  const w = canvas.width, h = canvas.height;
+  
+  // Warm dark base
+  ctx.fillStyle = '#1a1610';
+  ctx.fillRect(0, 0, w, h);
+  
+  // Film grain
+  const imageData = ctx.getImageData(0, 0, w, h);
+  for (let i = 0; i < imageData.data.length; i += 4) {
+    const n = (Math.random() - 0.5) * 25;
+    imageData.data[i] += n * 1.2;
+    imageData.data[i+1] += n * 1.0;
+    imageData.data[i+2] += n * 0.5;
+  }
+  ctx.putImageData(imageData, 0, 0);
+  
+  // Vignette
+  const vgrad = ctx.createRadialGradient(w/2, h/2, 50, w/2, h/2, w * 0.7);
+  vgrad.addColorStop(0, 'transparent');
+  vgrad.addColorStop(1, 'rgba(0,0,0,0.4)');
+  ctx.fillStyle = vgrad;
+  ctx.fillRect(0, 0, w, h);
+  
+  // Lane lines - warm
+  const laneWidth = w / 5;
+  for (let i = 0; i <= 5; i++) {
+    ctx.beginPath();
+    ctx.moveTo(i * laneWidth, 0);
+    ctx.lineTo(i * laneWidth, h);
+    ctx.strokeStyle = i === 0 || i === 5 ? 'rgba(251,191,36,0.35)' : 'rgba(251,191,36,0.08)';
+    ctx.lineWidth = i === 0 || i === 5 ? 1.5 : 0.5;
+    ctx.stroke();
+  }
+  
+  // Scan lines
+  for (let y = 0; y < h; y += 3) {
+    ctx.fillStyle = 'rgba(0,0,0,0.08)';
+    ctx.fillRect(0, y, w, 1);
+  }
+  
+  // Player
+  const px = 2 * laneWidth + laneWidth / 2;
+  const py = h - 80;
+  ctx.beginPath();
+  ctx.arc(px, py, 14, 0, Math.PI * 2);
+  ctx.fillStyle = 'rgba(251,191,36,0.5)';
+  ctx.fill();
+  ctx.strokeStyle = 'rgba(251,191,36,0.7)';
+  ctx.lineWidth = 1.5;
+  ctx.stroke();
+  
+  // Collectible
+  const cx1 = 1 * laneWidth + laneWidth / 2;
+  ctx.fillStyle = '#fbbf24';
+  ctx.font = '14px sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('✦', cx1, 140);
+  
+  // Obstacle
+  const ox1 = 3 * laneWidth + laneWidth / 2;
+  ctx.fillStyle = 'rgba(160,136,64,0.5)';
+  ctx.font = '14px sans-serif';
+  ctx.fillText('◌', ox1, 230);
+  
+  // Collectible 2
+  const cx2 = 4 * laneWidth + laneWidth / 2;
+  ctx.fillStyle = '#fbbf24';
+  ctx.font = '14px sans-serif';
+  ctx.fillText('✦', cx2, 340);
+  
+  // HUD
+  ctx.fillStyle = '#fbbf24';
+  ctx.font = 'bold 13px "Noto Serif SC", serif';
+  ctx.textAlign = 'left';
+  ctx.fillText('✦ ✦ ✧', 15, 25);
+  ctx.fillStyle = '#92702a';
+  ctx.font = '10px "Noto Serif SC", serif';
+  ctx.fillText('甜品师篇', 15, 42);
+}
+
+// Initialize all tracks
+drawTrack1(document.getElementById('track1'));
+drawTrack2(document.getElementById('track2'));
+drawTrack3(document.getElementById('track3'));
+drawTrack4(document.getElementById('track4'));
+drawTrack5(document.getElementById('track5'));
+</script>
+
+</body>
+</html>

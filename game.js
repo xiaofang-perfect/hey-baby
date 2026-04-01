@@ -265,6 +265,7 @@ class GameEngine {
     this.time = CONFIG.gameDuration;
     this.items = [];
     this.playerTargetLane = 2;
+    this.playerTargetX = null; // 直接定位模式（鼠标/触摸）
     this.playerX = 0;
     this.running = false;
     this.paused = false;
@@ -341,8 +342,33 @@ class GameEngine {
     this._bgCanvas = offCanvas;
   }
 
+  _bindPointer() {
+    const cv = this.canvas;
+    const self = this;
+    function ptrMove(e) {
+      if (!self.running || self.paused) return;
+      e.preventDefault();
+      const rect = cv.getBoundingClientRect();
+      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+      const rx = (clientX - rect.left) / rect.width;
+      const half = self.laneW * 0.5;
+      self.playerTargetX = Math.max(half, Math.min(self.W - half, rx * self.W));
+    }
+    cv.addEventListener('mousedown', ptrMove);
+    cv.addEventListener('mousemove', ptrMove);
+    cv.addEventListener('touchstart', ptrMove, {passive:false});
+    cv.addEventListener('touchmove', ptrMove, {passive:false});
+    this._ptrCleanup = () => {
+      cv.removeEventListener('mousedown', ptrMove);
+      cv.removeEventListener('mousemove', ptrMove);
+      cv.removeEventListener('touchstart', ptrMove);
+      cv.removeEventListener('touchmove', ptrMove);
+    };
+  }
+
   start() {
     this.resize();
+    this._bindPointer();
     this.running = true;
     this.paused = false;
     this.lastTime = performance.now();
@@ -350,7 +376,7 @@ class GameEngine {
     this.updateHUD(true);
     requestAnimationFrame(t => this.loop(t));
   }
-  stop() { this.running = false; }
+  stop() { this.running = false; if (this._ptrCleanup) this._ptrCleanup(); }
 
   loop(now) {
     if (!this.running) return;
@@ -405,8 +431,10 @@ class GameEngine {
   update(dt, progress) {
     const speed = CONFIG.baseSpeed + (CONFIG.maxSpeed - CONFIG.baseSpeed) * progress;
     const speedPx = speed * this.H / 100 * dt * 60;
-    const targetX = this.playerTargetLane * this.laneW + this.laneW / 2;
-    this.playerX += (targetX - this.playerX) * 0.18;
+    const targetX = this.playerTargetX != null
+      ? this.playerTargetX
+      : this.playerTargetLane * this.laneW + this.laneW / 2;
+    this.playerX += (targetX - this.playerX) * 0.22;
     if (this.shakeAmount > 0) this.shakeAmount *= 0.9;
     if (this.shakeAmount < 0.3) this.shakeAmount = 0;
 
@@ -556,7 +584,7 @@ class GameEngine {
     }
   }
 
-  endGame() { this.running = false; showResult(this.score); }
+  endGame() { this.running = false; if (this._ptrCleanup) this._ptrCleanup(); showResult(this.score); }
   movePlayer(dir) {
     if(!this.running || this.paused) return;
     this.playerTargetLane=Math.max(0,Math.min(CONFIG.lanes-1,this.playerTargetLane+dir));
@@ -572,14 +600,7 @@ document.addEventListener('keydown', e => {
   if (e.key==='ArrowRight'||e.key==='d') game.movePlayer(1);
   if (e.key==='Escape'||e.key===' ') togglePause();
 });
-let touchX=0,touchY=0;
-document.addEventListener('touchstart', e => { if(!game||!game.running)return; touchX=e.touches[0].clientX; touchY=e.touches[0].clientY; }, {passive:true});
-document.addEventListener('touchend', e => {
-  if(!game||!game.running)return;
-  const dx=e.changedTouches[0].clientX-touchX, dy=e.changedTouches[0].clientY-touchY;
-  if(Math.abs(dx)>20&&Math.abs(dx)>Math.abs(dy)) game.movePlayer(dx>0?1:-1);
-  else if(Math.abs(dx)<10&&Math.abs(dy)<10) game.movePlayer(e.changedTouches[0].clientX<window.innerWidth/2?-1:1);
-}, {passive:true});
+// 鼠标/触摸 控制现在绑定在 GameEngine._bindPointer() 中，直接挂载到 canvas 元素上
 window.addEventListener('resize', () => { if(game&&game.running) game.resize(); });
 
 // ══════════════════════════════════════════════
